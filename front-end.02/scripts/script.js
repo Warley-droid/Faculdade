@@ -25,7 +25,7 @@ const dadosDosProdutos = {
     ]
 }
 
-// Variáveis dos elementos daa estrutura HTML
+// Variáveis dos elementos da estrutura HTML
 const elementoHeader = document.querySelector('header')
 const elementoNav = document.querySelector('#nav-section')
 const elementoMain = document.querySelector('main')
@@ -33,14 +33,16 @@ const elementoAside = document.querySelector('aside')
 const elementoFooter = document.querySelector('footer')
 
 // Função para criar os elementos
-function criaElemento (qual, texto, id, classe, onde, caminhoImagem) {
+function criaElemento(qual, texto, id, classe, onde, caminhoImagem) {
+
     const elemento = document.createElement(qual)
+
     elemento.innerText = texto
     elemento.id = id
     elemento.className = classe
 
     if (qual === 'a') {
-        elemento.href = ''
+        elemento.href = '#'
     }
 
     if (qual === 'img') {
@@ -52,37 +54,82 @@ function criaElemento (qual, texto, id, classe, onde, caminhoImagem) {
     return elemento
 }
 
-// Adicionei o título do Header
-function adicionaElementosHeader(){
-    criaElemento('h1', 'Innovate Tech Store', '', 'title', elementoHeader)
+// Adicionando o título do Header
+function adicionaElementosHeader() {
+
+    criaElemento('h1','Innovate Tech Store','','title',elementoHeader)
 }
 
-// Adicionei os links na barra de navegação
-function adicionaElementosNav(){
-    for (let index = 0; index < arrayLinksNavegacao.length; index += 1){
-        const elementoDiv = criaElemento ('div', '', '', 'navElemento', elementoNav)
+// Adicionando os links na barra de navegação
+function adicionaElementosNav() {
 
-        criaElemento('a', arrayLinksNavegacao[index], '', 'navLink', elementoDiv)
+    for (let index = 0; index < arrayLinksNavegacao.length; index += 1) {
+
+        const elementoDiv = criaElemento('div','','','navElemento',
+            elementoNav)
+
+        criaElemento('a',arrayLinksNavegacao[index],'','navLink',elementoDiv)
     }
 }
 
-// Adicionei os elementos no Main
-function adicionaImagensMain(){
-    const sectionPrincipal = criaElemento('section', '', '', 'section-main', elementoMain)
+// Adicionando os elementos no Main
+function adicionaImagensMain() {
 
-    for (let index = 0; index < dadosDosProdutos.produto.length; index += 1)
-    {   const elementoDiv = criaElemento('div', '', '', 'sectionElement', sectionPrincipal)
+    const sectionPrincipal = criaElemento('section','','','section-main',elementoMain)
 
-        criaElemento('img', '', '', 'imagemProduto', elementoDiv, dadosDosProdutos.produto[index].imagem)
+    for (let index = 0; index < dadosDosProdutos.produto.length; index += 1) {
 
-        criaElemento('p', dadosDosProdutos.produto[index].nome, '', 'imagemProduto', elementoDiv)
+        const elementoDiv = criaElemento('div','','','sectionElement',sectionPrincipal)
 
-        criaElemento('button', 'mais info', dadosDosProdutos.produto[index].codigo, 'botao', elementoDiv)
+        criaElemento('img','','','imagemProduto',elementoDiv,dadosDosProdutos.produto[index].imagem)
+
+        criaElemento('p',dadosDosProdutos.produto[index].nome,'','imagemProduto',elementoDiv)
+
+        criaElemento('button','mais info',dadosDosProdutos.produto[index].codigo,'botao',elementoDiv)
     }
 }
 
-window.onload = function(){
+// Adicionando elementos no Aside
+function adicionaElementosIniciaisAside() {
+
+    let tamanhoDoArray = dadosDosProdutos.produto.length
+
+    // Selecionando o último produto
+    const produtoDestaque = dadosDosProdutos.produto[tamanhoDoArray - 1]
+
+    criaElemento('p','Produto em destaque','','aside-inicial',elementoAside)
+
+    criaElemento('img','','','imagem-produto',elementoAside,produtoDestaque.imagem)
+
+    criaElemento('p',produtoDestaque.nome,'prod-destaque','imagemProduto',elementoAside)
+
+    criaElemento('button','mais info',produtoDestaque.codigo,'botao',elementoAside)
+}
+
+// Adicionando o rodapé
+function adicionaRodape() {
+
+    const paragrafoRodape = criaElemento('p','2026 Innovate Tech Store. Todos os direitos reservados','','',elementoFooter)
+
+    return paragrafoRodape
+}
+
+// Adicionei os eventos nos botões
+
+function eventoNosBotoes(){
+    const buttons = document.querySelectorAll('button')
+
+    for (let index = 0; index < buttons.length; index += 1){
+        buttons(index).addEventListener('click', adidionaDetalhesAside)
+    }
+}
+
+// Carregamento dos elementos da página
+window.onload = function() {
     adicionaElementosHeader()
     adicionaElementosNav()
     adicionaImagensMain()
+    adicionaElementosIniciaisAside()
+    adicionaRodape()
+    eventoNosBotoes
 }
