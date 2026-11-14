@@ -120,7 +120,36 @@ function eventoNosBotoes(){
     const buttons = document.querySelectorAll('button')
 
     for (let index = 0; index < buttons.length; index += 1){
-        buttons(index).addEventListener('click', adidionaDetalhesAside)
+        buttons[index].addEventListener('click', adicionaDetalhesAside)
+    }
+}
+
+// Adicionei detalhes dos produtos
+function adicionaDetalhesAside(event) {
+
+    elementoAside.innerHTML = ''
+    const codigo = event.currentTarget.id
+    const produtoSelecionado = dadosDosProdutos.produto.find(
+    produto => produto.codigo === Number(codigo)
+    )
+    if (!produtoSelecionado) {
+    return
+    }
+    const chavesDeProdutos = Object.keys(produtoSelecionado)
+
+    for (let index = 0; index < chavesDeProdutos.length; index += 1) {
+
+        let texto = chavesDeProdutos[index]
+
+        if (texto === 'imagem') {
+
+            criaElemento('img','','','imagem-produto',elementoAside,produtoSelecionado.imagem)
+
+        } else {
+
+            criaElemento('p',`${texto.charAt(0).toUpperCase() + texto.substring(1)} : ${produtoSelecionado[texto]}`,'',`prod-${texto}`,
+            elementoAside)
+        }
     }
 }
 
@@ -131,5 +160,5 @@ window.onload = function() {
     adicionaImagensMain()
     adicionaElementosIniciaisAside()
     adicionaRodape()
-    eventoNosBotoes
+    eventoNosBotoes()
 }
